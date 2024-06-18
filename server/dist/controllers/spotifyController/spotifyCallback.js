@@ -20,7 +20,7 @@ const spotifyCallback = async (req, res) => {
             },
         });
         const { access_token, refresh_token } = authResponse.data;
-        res.send(`Access Token: ${access_token}<br>Refresh Token: ${refresh_token}<br><a href="/spotify/albums">View My Albums</a>`);
+        //res.send(`Access Token: ${access_token}<br>Refresh Token: ${refresh_token}<br><a href="/spotify/albums">View My Albums</a>`);
     }
     catch (error) {
         console.error('Error getting tokens:', error.response?.data || error.message);
