@@ -18,7 +18,7 @@ export const spotifyCallback = async (req: Request, res: Response) => {
       });
   
       const { access_token, refresh_token } = authResponse.data;
-      res.send(`Access Token: ${access_token}<br>Refresh Token: ${refresh_token}<br><a href="/spotify/albums">View My Albums</a>`);
+      //res.send(`Access Token: ${access_token}<br>Refresh Token: ${refresh_token}<br><a href="/spotify/albums">View My Albums</a>`);
     } catch (error: any) {
       console.error('Error getting tokens:', error.response?.data || error.message);
       res.status(500).send('Failed to authenticate with Spotify');
