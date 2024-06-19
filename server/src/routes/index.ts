@@ -7,4 +7,4 @@ export const indexRouter = express.Router();
 
 indexRouter.use("/", homeRouter);
 indexRouter.use('/', authRouter);
-indexRouter.use('/spotify', spotifyRouter);
+indexRouter.use('/', spotifyRouter);
