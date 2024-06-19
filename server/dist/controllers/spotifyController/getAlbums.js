@@ -5,15 +5,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAlbums = void 0;
 const axios_1 = __importDefault(require("axios"));
+const tokenService_1 = require("../../utils/tokenService");
 const getAlbums = async (req, res) => {
-    const access_token = req.headers.authorization?.replace('Bearer ', '');
-    if (!access_token) {
-        return res.status(401).send('Access token is missing. Please log in again.');
+    const tokens = (0, tokenService_1.readTokens)();
+    if (!tokens || !tokens.accessToken) {
+        return res.status(400).send('No access token found. Please authenticate first.');
+    }
+    if (new Date() > new Date(tokens.expiresAt)) {
+        return res.status(401).send('Access token expired. Please re-authenticate.');
     }
     try {
         const albumsResponse = await axios_1.default.get('https://api.spotify.com/v1/me/albums', {
             headers: {
-                'Authorization': `Bearer ${access_token}`
+                'Authorization': `Bearer ${tokens.accessToken}`
             }
         });
         const albums = albumsResponse.data.items;

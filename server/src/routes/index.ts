@@ -1,8 +1,8 @@
 import express from 'express';
-import { authRouter } from './authRoutes';
+import { authRouter } from './auth';
 import { spotifyRouter } from './spotifyRoutes';
 
 export const indexRouter = express.Router();
 
-indexRouter.use('/auth', authRouter);
+indexRouter.use('/', authRouter);
 indexRouter.use('/spotify', spotifyRouter);

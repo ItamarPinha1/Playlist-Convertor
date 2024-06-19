@@ -3,4 +3,4 @@ import { getAlbums } from '../controllers/spotifyController/getAlbums';
 
 export const spotifyRouter = express.Router();
 
-spotifyRouter.get('/albums', getAlbums);
+spotifyRouter.get("/getAlbums", getAlbums);
