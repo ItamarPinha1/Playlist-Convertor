@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import axios from 'axios';
-import { readTokens } from '../../utils/tokenService';
+import { readTokens } from '../../../utils/tokenService';
 
 export const getAlbums = async (req: Request, res: Response) => {
   const tokens = readTokens();

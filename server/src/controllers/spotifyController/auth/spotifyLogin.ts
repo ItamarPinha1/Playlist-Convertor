@@ -1,4 +1,4 @@
-import { CLIENT_ID, REDIRECT_CALLBACK} from "../../config/dotenv";
+import { CLIENT_ID, REDIRECT_CALLBACK} from "../../../config/dotenv";
 import { Request, Response } from 'express';
 
 export const spotifyLogin = (req: Request, res: Response) => {

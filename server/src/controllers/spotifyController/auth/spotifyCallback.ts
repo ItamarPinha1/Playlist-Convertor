@@ -1,7 +1,7 @@
-import { REDIRECT_CALLBACK, CLIENT_ID, CLIENT_SECRET } from "../../config/dotenv";
+import { REDIRECT_CALLBACK, CLIENT_ID, CLIENT_SECRET } from "../../../config/dotenv";
 import axios from "axios";
 import { Request, Response } from 'express';
-import { writeTokens } from "../../utils/tokenService";
+import { writeTokens } from "../../../utils/tokenService";
 
 export const spotifyCallback = async (req: Request, res: Response) => {
   const code = req.query.code || null;
@@ -32,7 +32,9 @@ export const spotifyCallback = async (req: Request, res: Response) => {
     
     writeTokens({ accessToken: access_token, refreshToken: refresh_token, expiresAt });
 
-    res.send(`Access Token: ${access_token}<br>Refresh Token: ${refresh_token}<br><a href="/spotify/getAlbums">View My Albums</a>`);
+    res.redirect('/home');
+
+    //res.send(`Access Token: ${access_token}<br>Refresh Token: ${refresh_token}<br><a href="/spotify/getAlbums">View My Albums</a>`);
   } catch (error: any) {
     console.error('Error getting tokens:', error.response?.data || error.message);
     res.status(500).send('Failed to authenticate with Spotify');
