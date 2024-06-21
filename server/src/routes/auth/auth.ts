@@ -5,5 +5,5 @@ import { spotifyCallback } from '../../controllers/spotifyController/auth/spotif
 
 export const authRouter = express.Router();
 
-authRouter.get('/', spotifyLogin);
+authRouter.get('/login', spotifyLogin);
 authRouter.get('/callback', spotifyCallback);

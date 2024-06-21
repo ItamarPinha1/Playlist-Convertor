@@ -10,5 +10,5 @@ export const spotifyLogin = (req: Request, res: Response) => {
     redirect_uri: REDIRECT_CALLBACK,
   });
 
-  res.redirect(`https://accounts.spotify.com/authorize?${params.toString()}`);
+  res.json({ url: `https://accounts.spotify.com/authorize?${params.toString()}` });
 };
