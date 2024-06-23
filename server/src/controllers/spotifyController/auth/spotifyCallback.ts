@@ -1,13 +1,13 @@
-import { REDIRECT_CALLBACK, CLIENT_ID, CLIENT_SECRET } from "../../../config/dotenv";
-import axios from "axios";
 import { Request, Response } from 'express';
-import { writeTokens } from "../../../utils/tokenService";
+import axios from 'axios';
+import { CLIENT_ID, CLIENT_SECRET, REDIRECT_CALLBACK } from '../../../config/dotenv';
+import { writeTokens, getTokens, refreshTokenIfNeeded } from '../../../utils/tokenService';
 
 export const spotifyCallback = async (req: Request, res: Response) => {
   const code = req.query.code || null;
 
   if (!code) {
-    return res.status(400).send('Code is missing in callback query parameters');
+    return res.redirect('http://localhost:3000/login?error=missing_code');
   }
 
   try {
@@ -22,19 +22,14 @@ export const spotifyCallback = async (req: Request, res: Response) => {
       },
     });
 
-    console.log(authResponse.data);
-
-    const access_token = authResponse.data.access_token;
-    const refresh_token = authResponse.data.refresh_token;
-    const expires_in = authResponse.data.expires_in;
-
+    const { access_token, refresh_token, expires_in } = authResponse.data;
     const expiresAt = new Date(Date.now() + expires_in * 1000).toISOString();
-    
-    writeTokens({ accessToken: access_token, refreshToken: refresh_token, expiresAt });
 
-    res.status(200).send('Succeed to authenticate with Spotify');
-  } catch (error: any) {
-    console.error('Error getting tokens:', error.response?.data || error.message);
-    res.status(500).send('Failed to authenticate with Spotify');
+    await writeTokens({ accessToken: access_token, refreshToken: refresh_token, expiresAt });
+
+    res.redirect('http://localhost:3000/login?success=true');
+  } catch (error) {
+    console.error('Error getting tokens:', error);
+    res.redirect('http://localhost:3000/login?error=auth_failed');
   }
 };

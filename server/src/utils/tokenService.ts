@@ -24,3 +24,15 @@ export const readTokens = (): Tokens | null => {
 export const writeTokens = (tokens: Tokens): void => {
   fs.writeFileSync(tokensFilePath, JSON.stringify(tokens, null, 2));
 };
+
+export const getTokens = () => {
+  if (fs.existsSync(tokensFilePath)) {
+    const data = fs.readFileSync(tokensFilePath, 'utf8');
+    return JSON.parse(data);
+  }
+  return null;
+}
+
+export const refreshTokenIfNeeded = (tokens: Tokens) => {
+
+}

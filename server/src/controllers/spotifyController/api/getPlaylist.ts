@@ -59,7 +59,8 @@ export const getPlaylists = async (req: Request, res: Response) => {
 
     res.json({
       message: 'Playlists fetched successfully',
-      playlists: playlistNamesAndIds
+      playlists: playlistNamesAndIds,
+      isSucces: true
     });
   } catch (error: any) {
     console.error('Error fetching playlists:', error.response?.data || error.message);
