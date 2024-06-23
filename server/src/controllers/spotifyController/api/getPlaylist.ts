@@ -3,6 +3,7 @@ import axios from 'axios';
 import { readTokens, writeTokens } from '../../../utils/tokenService';
 
 export const getPlaylists = async (req: Request, res: Response) => {
+
   const tokens = readTokens();
   
   if (!tokens || !tokens.accessToken) {

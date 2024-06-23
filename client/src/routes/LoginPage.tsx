@@ -6,37 +6,33 @@ function LoginPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    // Check if we're returning from Spotify auth
     const urlParams = new URLSearchParams(window.location.search);
-    const success = urlParams.get("success");
-    const error = urlParams.get("error");
+    const authSuccess = urlParams.get("auth_success");
 
-    if (success === "true") {
+    if (authSuccess === "true") {
       setIsAuthenticated(true);
-    } else if (error) {
+    } else if (authSuccess === "false") {
       setError("Authentication failed. Please try again.");
     }
-
-    checkAuthStatus();
   }, []);
 
-  const checkAuthStatus = async () => {
+  const handleLogin = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/check-auth");
-      setIsAuthenticated(response.data.isAuthenticated);
-      console.log(response);
-    } catch (error) {
-      console.error("Error checking auth status:", error);
-    }
-  };
+      // Get the auth URL from your server
+      const response = await axios.get("http://localhost:3000/login");
 
-  const handleLogin = () => {
-    window.location.href = "http://localhost:3000/login";
+      // Redirect the user to Spotify's auth page
+      window.location.href = response.data.authUrl;
+    } catch (error) {
+      console.error("Error during login:", error);
+      setError("Failed to start authentication process. Please try again.");
+    }
   };
 
   return (
     <>
       <h1>Login Page</h1>
-
       <div>
         {isAuthenticated ? (
           <p>Successfully authenticated with Spotify!</p>
